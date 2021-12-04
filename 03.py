@@ -25,13 +25,13 @@ with open('input/3.txt') as f:
 
     ogen = lists.copy()
     cosc = lists.copy()
-    lists = np.array(lists)
+    #lists = np.array(lists)
 
     for i in range(len(lists[0])):
         gamma <<= 1
         epsilon <<=1
-        gamma |= most_common(lists[:,i])
-        epsilon |= least_common(lists[:,i])
+        gamma |= most_common([lists[k][i] for k in range(len(lists))])
+        epsilon |= least_common([lists[k][i] for k in range(len(lists))])
 
         if (len(ogen) > 1):
             mc2 = most_common([ogen[k][i] for k in range(len(ogen))])
@@ -56,8 +56,12 @@ with open('input/3.txt') as f:
                 else:
                     cosc.pop(j)
 
-    v1 = int(''.join([str(x) for x in ogen[0]]),2)
-    v2 = int(''.join([str(x) for x in cosc[0]]),2)
+    oxy = int(''.join([str(x) for x in ogen[0]]),2)
+    co2 = int(''.join([str(x) for x in cosc[0]]),2)
 
-print(epsilon * gamma)
-print(v1 * v2)
+p1 = epsilon * gamma
+p2 = oxy * co2
+assert(p1 == 3895776)
+assert(p2 == 7928162)
+print(p1)
+print(p2)

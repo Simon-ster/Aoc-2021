@@ -13,5 +13,7 @@ with open('input/1.txt') as f:
             if v1 > v2:
                 p2 += 1
 
+assert(p1 == 1400)
+assert(p2 == 1429)
 print(p1)
 print(p2)

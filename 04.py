@@ -31,8 +31,8 @@ with open('input/4.txt') as f:
         list_v.append(v)
         if len(boards) == 1:
             sums = return_sum(bingo[boards[0]],list_v)
-            print(list_v[-1]*sums)
-            exit(0)
+            p2 = list_v[-1]*sums
+            break
         for i in range(len(bingo)):
             for j in range(5):
                 count1 = 0
@@ -45,7 +45,7 @@ with open('input/4.txt') as f:
                                 boards.pop(boards.index(i))
                             sums = return_sum(bingo[i],list_v)
                             if not part1:
-                                print(list_v[-1]*sums)
+                                p1 = list_v[-1]*sums
                                 part1 = True
                     if bingo[i][k][j] in set(list_v):
                         count2 += 1
@@ -54,8 +54,10 @@ with open('input/4.txt') as f:
                                 boards.pop(boards.index(i))
                             sums = return_sum(bingo[i],list_v)
                             if not part1:
-                                print(list_v[-1]*sums)
+                                p1 = list_v[-1]*sums
                                 part1 = True
 
+assert(p1 == 10374)
+assert(p2 == 24742)
 print(p1)
 print(p2)
