@@ -20,7 +20,7 @@ with open('input/6.txt') as f:
     fishies = [[int(x) for x in vals.split(',')] for vals in f][0]
     counts = [fishies.count(i) for i in range(9)]
     for i in range(256):
-        #print(counts)
+        print(counts)
         counts.append(counts.pop(0))
         counts[6] += counts[-1]
 
