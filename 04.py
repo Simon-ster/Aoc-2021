@@ -1,5 +1,8 @@
+import sys
+
 p1 = 0
 p2 = 0
+
 def return_sum(board,list_v):
     sums = 0
     list_v = set(list_v)
@@ -9,55 +12,52 @@ def return_sum(board,list_v):
                 sums += board[i][j]
     return sums
 
+lines = list(sys.stdin.readlines())
 
-with open('input/4.txt') as f:
-    lines = f.readlines()
-    vals = lines[0]
-    vals = list(map(int,vals[:-1].split(',')))
-    lines = lines[1:]
-    bingo = []
-    part1 = False
+vals = lines[0]
+vals = list(map(int,vals[:-1].split(',')))
+lines = lines[1:]
+bingo = []
+part1 = False
 
 
-    for line in lines:
-        if line == '\n':
-            bingo.append([])
-        else:
-            bingo[-1].append(list(map(int,line[:-1].split())))
-    boards = list(range(len(bingo)))
+for line in lines:
+    if line == '\n':
+        bingo.append([])
+    else:
+        bingo[-1].append(list(map(int,line[:-1].split())))
+boards = list(range(len(bingo)))
 
-    list_v = []
-    for v in vals:
-        list_v.append(v)
-        if len(boards) == 1:
-            sums = return_sum(bingo[boards[0]],list_v)
-            p2 = list_v[-1]*sums
-            break
-        for i in range(len(bingo)):
-            for j in range(5):
-                count1 = 0
-                count2 = 0
-                for k in range(5):
-                    if int(bingo[i][j][k]) in set(list_v):
-                        count1 += 1
-                        if count1 == 5:
-                            if i in boards:
-                                boards.pop(boards.index(i))
-                            sums = return_sum(bingo[i],list_v)
-                            if not part1:
-                                p1 = list_v[-1]*sums
-                                part1 = True
-                    if bingo[i][k][j] in set(list_v):
-                        count2 += 1
-                        if count2 == 5:
-                            if i in boards:
-                                boards.pop(boards.index(i))
-                            sums = return_sum(bingo[i],list_v)
-                            if not part1:
-                                p1 = list_v[-1]*sums
-                                part1 = True
+list_v = []
+for v in vals:
+    list_v.append(v)
+    if len(boards) == 1:
+        sums = return_sum(bingo[boards[0]],list_v)
+        p2 = list_v[-1]*sums
+        break
+    for i in range(len(bingo)):
+        for j in range(5):
+            count1 = 0
+            count2 = 0
+            for k in range(5):
+                if int(bingo[i][j][k]) in set(list_v):
+                    count1 += 1
+                    if count1 == 5:
+                        if i in boards:
+                            boards.pop(boards.index(i))
+                        sums = return_sum(bingo[i],list_v)
+                        if not part1:
+                            p1 = list_v[-1]*sums
+                            part1 = True
+                if bingo[i][k][j] in set(list_v):
+                    count2 += 1
+                    if count2 == 5:
+                        if i in boards:
+                            boards.pop(boards.index(i))
+                        sums = return_sum(bingo[i],list_v)
+                        if not part1:
+                            p1 = list_v[-1]*sums
+                            part1 = True
 
-assert(p1 == 10374)
-assert(p2 == 24742)
 print(p1)
 print(p2)
