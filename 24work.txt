@@ -1,0 +1,382 @@
+#each pass gets 3 useful inputs
+#a,b,c
+
+#w = int(input)
+#x = (z % 26) + a
+# if x != w: x = 1, else 0
+#z = z / b
+#z = z * (1 + 25x)
+#z = z + ((w+c) * x)
+
+#toms suggestion: 14 z * ys
+#seven z div 1
+#seven z div 26
+
+#appears that div 1 comes after x + val when val < 10
+#div 26 comes after x + val when val >= 10
+#z * 1 when x = 0:
+    #only possible when x == mod thingy
+#z * 26 when x = 1:
+    meaning x was not equal to mod thingy
+
+#z*26 invalidates everything from previous vals
+
+#x = (z % 26) + b
+# if x != w: x = 1, else 0
+#z = z / a
+#z = z * (1 + 25x)
+#z = z + ((w+c) * x)
+# in order of vars:
+div z , add x, add y
+when 1, x = 1, z/a does nothing
+so z = z*26
+z = z + w+c
+when 1, push w+c onto stack
+when 0, pop. wnew must equal wprev + c + b
+1, 12, 6
+1, 10, 6
+1, 13, 3
+26^2[w1+6]+26[w2+6]+[w3+3]
+26, -11, 11
+w4 = w3 + 3 - 11 = w3 - 8: w4 = 1
+1, 13, 9
+26^2[w1+6]+26[w2+6]+[w5+9]
+26, -1, 3
+w6 = w5 + 9 - 1 = w5 + 8: w5 = 1
+1, 10, 13
+26^2[w1+6]+26[w2+6]+[w7+13]
+1, 11, 6
+26^3[w1+6]+26^2[w2+6]+26[w7+13]+[w8+6]
+26, 0, 14
+w9 = w8 + 6
+1, 10, 10
+26^3[w1+6]+26^2[w2+6]+26[w7+13]+[w10+10]
+26, -5, 12
+w11 = w10 + 10 - 5 = w10 + 5
+26, -16, 10
+w12 = w7 + 13 - 16 = w7 - 3
+26, -7, 11
+w13 = w2 +6 - 7 = w2 - 1
+26, -ll, 15
+w14 = w1 + 6 - 11 = w1 - 5
+
+
+
+
+
+inp w
+w = int(input())
+mul x 0
+-- x = 0
+add x z
+-- x,z = 0
+mod x 26
+-- x = 0
+div z 1
+-- z = 1
+add x 12
+-- x = 12
+eql x w
+eql x 0
+-- x will always be 1
+mul y 0
+--y = 0
+add y 25
+-- y = 25
+mul y x
+-- y = 25
+add y 1
+-- y = 26
+mul z y
+-- z = 26
+mul y 0
+-- y = 0
+add y w
+-- y = w
+add y 6
+-- y = w + 6
+mul y x
+-- y = w + 6
+add z y
+-- z = 26 + w + 6
+inp w
+mul x 0
+-- x = 0
+add x z
+-- x = 26 + w + 6
+mod x 26
+-- x = (32 + w1) % 26
+div z 1
+-- z = (32 + w1)
+add x 10
+-- x = 10 + mod(32 + w1)
+eql x w
+eql x 0
+-- x == 1 if 10 + mod(32 + w)
+-- x will always be 1
+mul y 0
+-- y = 0
+add y 25
+-- y = 25
+mul y x
+-- y = 25
+add y 1
+-- y = 1
+mul z y
+-- z = (26 +w1+6) // 26
+mul y 0
+-- y = 0
+add y w
+-- y = w
+add y 6
+-- y = w + 6
+mul y x
+-- y = w + 6
+add z y
+-- z = ((26+w1+6)//26) + w + 6
+inp w
+mul x 0
+add x z
+mod x 26
+x = (((32+w1)//26)+w2+6) % 26
+div z 1
+add x 13
+x = ((((32+w1)//26)+w2+6) % 26) + 13
+eql x w
+eql x 0
+--x always 1
+mul y 0
+add y 25
+mul y x
+add y 1
+--y = 26
+mul z y
+z = (((26+w1+6)//26) + w2 + 6)*26
+mul y 0
+add y w
+-- y = w3
+add y 3
+-- y = w3 + 3
+mul y x
+add z y
+z = ((((26+w1+6)//26)+w2+6)*26)+w3+3
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+z = (((((26+w1+6)//26)+w2+6)*26)+w3+3)//26
+add x -11
+x = (((((26+w1+6)//26)+w2+6)*26)+w3+3) % 26 -11
+x = (w3 + 3) % 26 - 11
+x should be 0 here w3 = 8
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+y == 1
+mul z y
+z = (((((26+w1+6)//26)+w2+6)*26)+w3+3)//26
+mul y 0
+add y w
+add y 11
+mul y x
+y = 0
+add z y
+z = (((((26+w1+6)//26)+w2+6)*26)+w3+3)//26
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 13
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 9
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -1
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 13
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 11
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 6
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x 0
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 14
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 10
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -5
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 12
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -16
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 10
+mul y x
+add z y
+inp w
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -7
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 11
+mul y x
+add z y
+inp w
+mul x 0
+-- set x to 0
+add x z
+-- set x = z
+mod x 26
+-- x %= 26
+div z 26
+-- z//=26
+add x -11
+-- x -= 11 (so x is somewhere 0<=x<=25)
+eql x w
+eql x 0
+-- x = 0 or 1. if x == w will be 0
+mul y 0
+-- set y to 0
+add y 25
+mul y x
+-- y == 25 else 0 if x
+add y 1
+-- y += 1
+mul z y
+-- set z to 26z or z
+mul y 0
+--set y to 0
+add y w
+add y 15
+set y to w + 15
+mul y x
+-- set y = w+15 else 0 if x
+add z y
+-- z must be 0
